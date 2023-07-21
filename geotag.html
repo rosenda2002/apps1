@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Geotagging Example</title>
+    <!-- Add Bootstrap CSS link -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Map container -->
+        <div id="map" style="height: 400px;"></div>
+        <button id="get-geotag" class="btn btn-primary mt-2">Get Geotag</button>
+    </div>
+
+    <!-- Add Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Google Maps API script -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&callback=initMap" async defer></script>
+
+    <!-- Your custom JavaScript -->
+    <script>
+        // Google Maps API callback function
+        function initMap() {
+            // Initialize the map
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 0, lng: 0},
+                zoom: 8
+            });
+
+            // Add a marker when the map is clicked
+            var marker = new google.maps.Marker({
+                map: map,
+                position: {lat: 0, lng: 0},
+                draggable: true // Allow users to drag the marker to select a location
+            });
+
+            // Event listener to update marker position when it's dragged
+            google.maps.event.addListener(marker, 'dragend', function(event) {
+                var lat = event.latLng.lat();
+                var lng = event.latLng.lng();
+                console.log('Latitude: ' + lat + ', Longitude: ' + lng);
+            });
+        }
+
+        // Button click event to get the geotag (current marker position)
+        $('#get-geotag').click(function() {
+            var lat = marker.getPosition().lat();
+            var lng = marker.getPosition().lng();
+            alert('Latitude: ' + lat + ', Longitude: ' + lng);
+        });
+    </script>
+</body>
+</html>
